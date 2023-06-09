@@ -5,6 +5,7 @@ body {
 	align-items: center;
 	height: 100vh;
     margin-top: 10vh;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 #juices-grid {
@@ -12,23 +13,92 @@ body {
 	--cell-gap: 2vmin;
 	position: relative;
 	display: grid;
-	grid-template-columns: repeat(3, var(--cell-size));
-	grid-template-rows: repeat(3, var(--cell-size));
+	grid-template-columns: repeat(4, var(--cell-size));
+	grid-template-rows: repeat(2, var(--cell-size));
 	gap: var(--cell-gap);
 	border-radius: 1vmin;
 }
 
-#cell {
+.cell {
     background-color: #444;
 	border-radius: 1vmin;
+	text-align: center;
+	font-size: 14px;
+	color: lightsteelblue;
+}
+
+.cell:hover {
+	background-color: #6b6868;
+	border-radius: 1vmin;
+	text-align: center;
 }
 
 #coins {
     margin-right: 10vmin;
     text-align: center;
+	display: grid;
+	gap: 2vmin;
 }
 
 #options {
     margin-left: 10vmin;
     text-align: center;
 }
+
+#blocked {
+	opacity: 0.5;
+}
+
+.bcell {
+    background-color: #3f3535;
+	border-radius: 1vmin;
+	text-align: center;
+}
+
+.buybutton {
+	background-color: #9ec782; /* Green */
+	border: none;
+	color: #3f3535;
+	padding: 5px 28px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+  }
+
+  .buybutton:hover {
+	background-color: #c1f39f; 
+  }
+
+  .price {
+	color:chocolate;
+	font-size: small;
+  }
+
+  #sumdisplay {
+	background-color: black;
+	border: 2px solid rgb(207, 204, 201);
+	border-radius: 1vmin;
+	color:#c1f39f;
+	width: 20vmin;
+	height: 10vmin;
+	text-align: right;
+  }
+
+  .psum {
+	font-size: 26px;
+  }
+
+  .coin {
+	background-color:darkkhaki;
+	border: 2px solid lightgray;
+	border-radius: 5vmin;
+	color:#462904;
+	width: 20vmin;
+	height: 3vmin;
+	font-size: 28px;
+  }
+
+  .coin:hover {
+	background-color: rgb(243, 237, 154);
+  }
