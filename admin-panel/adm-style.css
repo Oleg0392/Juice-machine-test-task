@@ -27,12 +27,6 @@ body {
 	color: lightsteelblue;
 }
 
-.cell:hover {
-	background-color: #6b6868;
-	border-radius: 1vmin;
-	text-align: center;
-}
-
 #coins {
     margin-right: 10vmin;
     text-align: center;
@@ -55,19 +49,49 @@ body {
 	text-align: center;
 }
 
-.buybutton {
-	background-color: #9ec782; /* Green */
+.edtbutton {
+	background-color: #d3a55b; 
 	border: none;
 	color: #3f3535;
-	padding: 5px 28px;
+	padding: 5px 8px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
   }
 
-  .buybutton:hover {
-	background-color: #c1f39f; 
+  .edtbutton:hover {
+	background-color: #f2d389; 
+  }
+
+  .delbutton {
+	background-color: #d15bd3; 
+	border: none;
+	color: #3f3535;
+	padding: 5px 8px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+  }
+
+  .delbutton:hover {
+	background-color: #ed80f5; 
+  }
+
+  .blkbutton {
+	background-color: #9f9b94; 
+	border: none;
+	color: #3f3535;
+	padding: 5px 8px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+  }
+
+  .blkbutton:hover {
+	background-color: #d3cfc6; 
   }
 
   .blockedbtn {
@@ -115,7 +139,7 @@ body {
   }
 
   #paystatus {
-	color: forestgreen;
+	color: rgb(183, 187, 183);
 	font-size: 14px;
 	width: 27vmin;
   }

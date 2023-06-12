@@ -43,11 +43,23 @@ class JuiceGridCell {
         this.juiceTitle.textContent = `Коктейль \"${juice.title}\"`;
         this.juiceCell.append(this.juiceTitle);
 
-        this.juiceBuyButton = document.createElement("button");
-        this.juiceBuyButton.classList.add("buybutton");
-        this.juiceBuyButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
-        this.juiceBuyButton.textContent = "Купить";
-        this.juiceCell.append(this.juiceBuyButton);
+        this.juiceEdtButton = document.createElement("button");
+        this.juiceEdtButton.classList.add("edtbutton");
+        this.juiceEdtButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
+        this.juiceEdtButton.textContent = "Изменить";
+        this.juiceCell.append(this.juiceEdtButton);
+
+        this.juiceDelButton = document.createElement("button");
+        this.juiceDelButton.classList.add("delbutton");
+        this.juiceDelButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
+        this.juiceDelButton.textContent = "Удалить";
+        this.juiceCell.append(this.juiceDelButton);
+
+        this.juiceBlkButton = document.createElement("button");
+        this.juiceBlkButton.classList.add("blkbutton");
+        this.juiceBlkButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
+        this.juiceBlkButton.textContent = "Блокировка";
+        this.juiceCell.append(this.juiceBlkButton);
 
         this.juicePriceCount = undefined;
         this.updateJuicePriceCount(juiceId);
@@ -131,7 +143,9 @@ class Kassa {
             case NULLJUICES:  statusText = "Данный коктейль закончился.";
                               colorName = "red";
                               break;
-                     default: break;
+                     default: statusText = "Неизвестная ошибка";
+                              colorName = "red";
+                              break;
         }
         this.status.textContent = statusText;
         this.status.style.setProperty("color",colorName);
@@ -144,14 +158,14 @@ class Kassa {
 
 const kassa = new Kassa();
 const juices = [];
-juices.push(new Juice(0, "Кленовый сауэр", 25, 15, "img/drink1.png"));
-juices.push(new Juice(1, "Манхэттен", 15, 5, "img/drink2.png"));
-juices.push(new Juice(2, "Карибское сокровище", 10, 10, "img/drink3.png"));
-juices.push(new Juice(3, "Мохито", 30, 3, "img/drink4.png"));
-juices.push(new Juice(4, "Кровавая Мэри", 20, 7, "img/drink5.png"));
-juices.push(new Juice(5, "Японский урожай", 18, 9, "img/drink6.png"));
-juices.push(new Juice(6, "Сказка", 35, 1, "img/drink7.png"));
-juices.push(new Juice(7, "Пача Ибица", 40, 12, "img/drink8.png"));
+juices.push(new Juice(0, "Кленовый сауэр", 25, 15, "../img/drink1.png"));
+juices.push(new Juice(1, "Манхэттен", 15, 5, "../img/drink2.png"));
+juices.push(new Juice(2, "Карибское сокровище", 10, 10, "../img/drink3.png"));
+juices.push(new Juice(3, "Мохито", 30, 3, "../img/drink4.png"));
+juices.push(new Juice(4, "Кровавая Мэри", 20, 7, "../img/drink5.png"));
+juices.push(new Juice(5, "Японский урожай", 18, 9, "../img/drink6.png"));
+juices.push(new Juice(6, "Сказка", 35, 1, "../img/drink7.png"));
+juices.push(new Juice(7, "Пача Ибица", 40, 12, "../img/drink8.png"));
 const juiceGrid = new JuiceGrid(document.getElementById("juices-grid"));
 
 function insertCoins(coinCount) {
