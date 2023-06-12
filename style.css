@@ -70,6 +70,17 @@ body {
 	background-color: #c1f39f; 
   }
 
+  .blockedbtn {
+	background-color: #455739; 
+	border: none;
+	color: #201b1b;
+	padding: 5px 28px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+  }
+
   .price {
 	color:chocolate;
 	font-size: small;
@@ -85,7 +96,7 @@ body {
 	text-align: right;
   }
 
-  .psum {
+  #psum {
 	font-size: 26px;
   }
 
@@ -101,4 +112,10 @@ body {
 
   .coin:hover {
 	background-color: rgb(243, 237, 154);
+  }
+
+  #paystatus {
+	color: forestgreen;
+	font-size: 14px;
+	width: 27vmin;
   }
