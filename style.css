@@ -117,5 +117,6 @@ body {
   #paystatus {
 	color: forestgreen;
 	font-size: 14px;
-	width: 27vmin;
+	width: 20vmin;
+	height: 10vmin;
   }

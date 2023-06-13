@@ -85,6 +85,40 @@ class JuiceGrid {
     }
 }
 
+class Coin {
+    constructor(id, nominal, blocked) {
+        this.id = id;
+        this.nominal = nominal;
+        this.blocked = blocked;
+    }
+}
+
+class CoinListItem {
+    constructor(coinId, divElement) {
+        this.CoinButton = document.createElement("div");
+        this.CoinButton.className = "coin";
+        this.CoinButton.setAttribute("onclick",`insertCoins(${coins[coinId].nominal})`);
+        this.CoinButton.textContent = coins[coinId].nominal.toString();
+        divElement.append(this.CoinButton);
+    }
+}
+
+class CoinList {
+    constructor(divElement){
+        this.coinList = [];
+        for (let i = 0; i < coins.length; i++) {
+            this.coinList.push(new CoinListItem(i, divElement));
+        }
+    }
+
+    checkBlocking(coinId){
+        if (coins[coinId].blocked) {
+            this.coinList[coinId].CoinButton.className = "bcoin";
+        }
+        else this.coinList[coinId].CoinButton.className = "coin";
+    }
+}
+
 class Kassa {
     constructor() {
         this.balance = 0.00;
@@ -143,6 +177,7 @@ class Kassa {
 }
 
 const kassa = new Kassa();
+
 const juices = [];
 juices.push(new Juice(0, "Кленовый сауэр", 25, 15, "img/drink1.png"));
 juices.push(new Juice(1, "Манхэттен", 15, 5, "img/drink2.png"));
@@ -152,7 +187,15 @@ juices.push(new Juice(4, "Кровавая Мэри", 20, 7, "img/drink5.png"));
 juices.push(new Juice(5, "Японский урожай", 18, 9, "img/drink6.png"));
 juices.push(new Juice(6, "Сказка", 35, 1, "img/drink7.png"));
 juices.push(new Juice(7, "Пача Ибица", 40, 12, "img/drink8.png"));
+
+const coins = [];
+coins.push(new Coin(0,10,false));
+coins.push(new Coin(1,5,false));
+coins.push(new Coin(2,2,false));
+coins.push(new Coin(3,1,false));
+
 const juiceGrid = new JuiceGrid(document.getElementById("juices-grid"));
+const coinList = new CoinList(document.getElementById("coins"));
 
 function insertCoins(coinCount) {
     kassa.addCoins(coinCount);

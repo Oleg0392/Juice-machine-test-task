@@ -45,15 +45,17 @@ class JuiceGridCell {
 
         this.juiceEdtButton = document.createElement("button");
         this.juiceEdtButton.classList.add("edtbutton");
-        this.juiceEdtButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
+        this.juiceEdtButton.setAttribute("onclick", `editJuice(${juice.id.toString()})`);
         this.juiceEdtButton.textContent = "Изменить";
         this.juiceCell.append(this.juiceEdtButton);
+        this.juiceCell.append(" ");
 
         this.juiceDelButton = document.createElement("button");
         this.juiceDelButton.classList.add("delbutton");
         this.juiceDelButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
         this.juiceDelButton.textContent = "Удалить";
         this.juiceCell.append(this.juiceDelButton);
+        this.juiceCell.append(" ");
 
         this.juiceBlkButton = document.createElement("button");
         this.juiceBlkButton.classList.add("blkbutton");
@@ -73,8 +75,22 @@ class JuiceGridCell {
             this.juicePriceCount.remove();
         }       
         this.juicePriceCount = document.createElement("p");
-        this.juicePriceCount.classList.add("price");
-        this.juicePriceCount.textContent = `Цена: ${juice.price.toFixed(2)}, Ост: ${juice.rest.toString()}`;
+        //this.juicePriceCount.classList.add("price");
+        //this.juicePriceCount.textContent = `Цена: ${juice.price.toFixed(2)}, Ост: ${juice.rest.toString()}`;
+
+        this.juicePriceEditButton = document.createElement("button");
+        this.juicePriceEditButton.className = "edtbutton";
+        this.juicePriceEditButton.setAttribute("onclick",`editJuice(11,${juice.id.toString()}`);
+        this.juicePriceEditButton.textContent = `Цена: ${juice.price.toFixed(2)}`;
+
+        this.juiceRestEditButton = document.createElement("button");
+        this.juiceRestEditButton.className = "edtbutton";
+        this.juiceRestEditButton.setAttribute("onclick",`editJuice(12,${juice.id.toString()}`);
+        this.juiceRestEditButton.textContent = `Ост: ${juice.rest.toString()}`;
+
+        this.juicePriceCount.append(this.juicePriceEditButton);
+        this.juicePriceCount.append(" ");
+        this.juicePriceCount.append(this.juiceRestEditButton);
         this.juiceCell.append(this.juicePriceCount);
     }
 
@@ -101,7 +117,7 @@ class Kassa {
     constructor() {
         this.balance = 0.00;
         this.display = document.getElementById("psum");
-        this.status = document.getElementById("paystatus");
+        //this.status = document.getElementById("paystatus");
         this.selectedJuice = undefined;   
     }
 
@@ -117,46 +133,47 @@ class Kassa {
         this.display.textContent = this.balance.toFixed(2);
     }
 
-    showStatus(statusCode) {
-        let statusText = "";
-        let colorName = "forestgreen";
-
-        switch(statusCode) {
-            case INSUFFUCUENT: statusText = "Недостаточно средств";
-                               colorName = "red";
-                               break;
-            case SUCCESSFULL: statusText = "Успешно";
-                              colorName = "forestgreen";
-                              break;
-            case ERRORTRANSN: statusText = "Неизвестная ошибка";
-                              colorName = "red";
-                              break;
-            case NULLBALANCE: statusText = "Вы не вносили средств";
-                              colorName = "red";
-                              break;
-            case CHANGERECVD: statusText = "Выдана сдача: " + this.balance.toFixed(2);
-                              colorName = "forestgreen";
-                              break;
-            case GETJUICEINFO: statusText = this.selectedJuice.title + ", осталось: " + this.selectedJuice.rest;
-                               colorName = "yellow";
-                               break;
-            case NULLJUICES:  statusText = "Данный коктейль закончился.";
-                              colorName = "red";
-                              break;
-                     default: statusText = "Неизвестная ошибка";
-                              colorName = "red";
-                              break;
-        }
-        this.status.textContent = statusText;
-        this.status.style.setProperty("color",colorName);
-    }
-
     setSelectedJuice(juice) {
         this.selectedJuice = juice
     }
 }
 
+class Coin {
+    constructor(id, nominal, blocked) {
+        this.id = id;
+        this.nominal = nominal;
+        this.blocked = blocked;
+    }
+}
+
+class CoinListItem {
+    constructor(coinId, divElement) {
+        this.CoinButton = document.createElement("div");
+        this.CoinButton.className = "coin";
+        this.CoinButton.setAttribute("onclick",`switchBlocking(${coins[coinId].id})`);
+        this.CoinButton.textContent = coins[coinId].nominal.toString();
+        divElement.append(this.CoinButton);
+    }
+}
+
+class CoinList {
+    constructor(divElement){
+        this.coinList = [];
+        for (let i = 0; i < coins.length; i++) {
+            this.coinList.push(new CoinListItem(i, divElement));
+        }
+    }
+
+    checkBlocking(coinId){
+        if (coins[coinId].blocked) {
+            this.coinList[coinId].CoinButton.className = "bcoin";
+        }
+        else this.coinList[coinId].CoinButton.className = "coin";
+    }
+}
+
 const kassa = new Kassa();
+
 const juices = [];
 juices.push(new Juice(0, "Кленовый сауэр", 25, 15, "../img/drink1.png"));
 juices.push(new Juice(1, "Манхэттен", 15, 5, "../img/drink2.png"));
@@ -166,53 +183,15 @@ juices.push(new Juice(4, "Кровавая Мэри", 20, 7, "../img/drink5.png"
 juices.push(new Juice(5, "Японский урожай", 18, 9, "../img/drink6.png"));
 juices.push(new Juice(6, "Сказка", 35, 1, "../img/drink7.png"));
 juices.push(new Juice(7, "Пача Ибица", 40, 12, "../img/drink8.png"));
+
+const coins = [];
+coins.push(new Coin(0,10,false));
+coins.push(new Coin(1,5,false));
+coins.push(new Coin(2,2,false));
+coins.push(new Coin(3,1,false));
+
 const juiceGrid = new JuiceGrid(document.getElementById("juices-grid"));
-
-function insertCoins(coinCount) {
-    kassa.addCoins(coinCount);
-    kassa.showBalance();
-    //kassa.showStatus(DELSTATUSMSG);
-}
-
-function buyJuice(id) {
-    let juiceRestControl = 0;
-    if (juices[id].price > kassa.balance)
-    {
-        console.error("недостаточно средств");
-        kassa.showStatus(INSUFFUCUENT);
-        return;
-    }
-    juiceRestControl = juices[id].dimRest();
-    if (juiceRestControl == NULLJUICES) {
-        kassa.showStatus(NULLJUICES);
-        return;
-    }
-    kassa.dimCoins(juices[id].price);
-    kassa.showBalance();
-    kassa.showStatus(SUCCESSFULL);
-    
-    juiceGrid.juiceGridCells[id].updateJuicePriceCount(id);
-
-    if (juices[id].rest == 0) {
-        juiceGrid.juiceGridCells[id].blockingJuiceCell();
-    }
-}
-
-function getChange() {
-    if (kassa.balance <= 0) {
-        kassa.showStatus(NULLBALANCE);
-        return;
-    }
-    kassa.showStatus(CHANGERECVD);
-    kassa.balance = 0;
-    kassa.showBalance();
-}
-
-function getJuiceInfo(Id) {
-    kassa.setSelectedJuice(juices[Id]);
-    kassa.showStatus(GETJUICEINFO);
-    //getUserData("OLEG0392",onDataRecieved);
-}
+const coinList = new CoinList(document.getElementById("coins"));
 
 function onDataRecieved(data) {
     imggit = document.createElement("img");
@@ -220,3 +199,19 @@ function onDataRecieved(data) {
     document.getElementById("options").append(imggit);
 }
 
+function switchBlocking(coinId) {
+    if (coins[coinId].blocked) coins[coinId].blocked = false; else coins[coinId].blocked = true;
+    coinList.checkBlocking(coinId);
+}
+
+function editJuice(juiceId) {
+    var value = prompt("новое значение","");
+}
+
+function deleteJuice(juiceId) {
+
+}
+
+function blockJuice(juiceId) {
+
+}
