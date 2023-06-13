@@ -1,11 +1,6 @@
-const INSUFFUCUENT = 9;
-const NULLBALANCE = 7;
-const SUCCESSFULL = 5;
-const ERRORTRANSN = 3;
-const CHANGERECVD = 2;
-const DELSTATUSMSG = 0;
-const GETJUICEINFO = 6;
-const NULLJUICES = 1;
+const EDIT_PRICE = 11;
+const EDIT_REST = 12;
+const EDIT_TITLE = 13;
 const GRID_SIZE = 4;
 const JUICE_COUNT = 8;
 
@@ -45,21 +40,21 @@ class JuiceGridCell {
 
         this.juiceEdtButton = document.createElement("button");
         this.juiceEdtButton.classList.add("edtbutton");
-        this.juiceEdtButton.setAttribute("onclick", `editJuice(${juice.id.toString()})`);
+        this.juiceEdtButton.setAttribute("onclick", `editJuice(13,${juice.id.toString()})`);
         this.juiceEdtButton.textContent = "Изменить";
         this.juiceCell.append(this.juiceEdtButton);
         this.juiceCell.append(" ");
 
         this.juiceDelButton = document.createElement("button");
         this.juiceDelButton.classList.add("delbutton");
-        this.juiceDelButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
+        this.juiceDelButton.setAttribute("onclick", `deleteJuice(${juice.id.toString()})`);
         this.juiceDelButton.textContent = "Удалить";
         this.juiceCell.append(this.juiceDelButton);
         this.juiceCell.append(" ");
 
         this.juiceBlkButton = document.createElement("button");
         this.juiceBlkButton.classList.add("blkbutton");
-        this.juiceBlkButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
+        this.juiceBlkButton.setAttribute("onclick", `blockJuice(${juice.id.toString()})`);
         this.juiceBlkButton.textContent = "Блокировка";
         this.juiceCell.append(this.juiceBlkButton);
 
@@ -75,17 +70,15 @@ class JuiceGridCell {
             this.juicePriceCount.remove();
         }       
         this.juicePriceCount = document.createElement("p");
-        //this.juicePriceCount.classList.add("price");
-        //this.juicePriceCount.textContent = `Цена: ${juice.price.toFixed(2)}, Ост: ${juice.rest.toString()}`;
 
         this.juicePriceEditButton = document.createElement("button");
         this.juicePriceEditButton.className = "edtbutton";
-        this.juicePriceEditButton.setAttribute("onclick",`editJuice(11,${juice.id.toString()}`);
+        this.juicePriceEditButton.setAttribute("onclick",`editJuice(11,${juice.id.toString()})`);
         this.juicePriceEditButton.textContent = `Цена: ${juice.price.toFixed(2)}`;
 
         this.juiceRestEditButton = document.createElement("button");
         this.juiceRestEditButton.className = "edtbutton";
-        this.juiceRestEditButton.setAttribute("onclick",`editJuice(12,${juice.id.toString()}`);
+        this.juiceRestEditButton.setAttribute("onclick",`editJuice(12,${juice.id.toString()})`);
         this.juiceRestEditButton.textContent = `Ост: ${juice.rest.toString()}`;
 
         this.juicePriceCount.append(this.juicePriceEditButton);
@@ -98,9 +91,21 @@ class JuiceGridCell {
         this.juiceCell.classList.remove("cell");
         this.juiceCell.classList.add("bcell");
         this.juiceImg.classList.add("blocked");
-        this.juiceBuyButton.classList.remove("buybutton");
-        this.juiceBuyButton.classList.add("blockedbtn");
-        this.juiceBuyButton.disabled = true;
+    }
+
+    updateJuicePrice(juiceId, value) {
+        juices[juiceId].price = value;
+        this.juicePriceEditButton.textContent = `Цена: ${Number(value).toFixed(2)}`;
+    }
+
+    updateJuiceRest(juiceId, value) {
+        juices[juiceId].rest = value;
+        this.juiceRestEditButton.textContent = `Ост: ${value.toString()}`;
+    }
+
+    updateJuiceTitle(juiceId, value) {
+        juices[juiceId].title = value;
+        this.juiceTitle.textContent = `Коктейль \"${value}\"`;
     }
 }
 
@@ -204,14 +209,25 @@ function switchBlocking(coinId) {
     coinList.checkBlocking(coinId);
 }
 
-function editJuice(juiceId) {
-    var value = prompt("новое значение","");
+function editJuice(editCode, juiceId) {
+    switch (editCode) {
+        case EDIT_PRICE: {  var value = prompt("Введите новую цену:",Number(juices[juiceId].price).toFixed(2));
+                            juiceGrid.juiceGridCells[juiceId].updateJuicePrice(juiceId, value);
+                            break; }
+        case EDIT_REST : {  var value = prompt("Введите новое кол-во:",juices[juiceId].rest.toString());
+                            juiceGrid.juiceGridCells[juiceId].updateJuiceRest(juiceId, value);
+                            break; }
+        case EDIT_TITLE: {  var value = prompt("Введите новое название:",juices[juiceId].title);
+                            juiceGrid.juiceGridCells[juiceId].updateJuiceTitle(juiceId, value);
+                            break; }
+                default:    break;
+    }
 }
 
 function deleteJuice(juiceId) {
-
+    juiceGrid.juiceGridCells[juiceId].remove();
 }
 
 function blockJuice(juiceId) {
-
+    juiceGrid.juiceGridCells[juiceId].blockingJuiceCell();
 }

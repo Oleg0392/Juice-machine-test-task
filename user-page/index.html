@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./adm-style.css"/>
-        <title>Automat test task page - Administrator</title>
+        <link rel="stylesheet" href="./style.css"/>
+        <title>Automat test task page</title>
     </head>
     <body>
         <div id="coins">
@@ -12,14 +12,14 @@
                 <p id="psum">0.00</p>
             </div>
             <br>
-            <br><div id="service-text">Блокировка монет:</div><br>
-            <br>
+            <button class="buybutton" onclick="getChange()">Забрать сдачу</button>
+            <br><div id="paystatus"></div><br>          
         </div>
         <div id="juices-grid">
         </div>
         <div id="options"></div>
         <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
         <script src="../service.js"></script>
-        <script src="adm-script.js"></script>      
+        <script src="script.js"></script>      
     </body>
 </html>
