@@ -17,14 +17,6 @@ class Juice {
         this.rest = rest;
         this.imgUrl = imgurl;
     }
-
-    dimRest(){
-        if (this.rest == 0) {
-            return NULLJUICES;
-        }
-        this.rest -= 1;
-        return SUCCESSFULL;
-    }
 }
 
 class JuiceGridCell {
@@ -35,8 +27,9 @@ class JuiceGridCell {
         this.juiceCell.classList.add("cell");
 
         this.juiceImg = document.createElement("img");
-        this.juiceImg.setAttribute("src",juice.imgUrl);
+        this.juiceImg.setAttribute("src",juice.imgUrl.toString());
         this.juiceImg.setAttribute("onclick",`getJuiceInfo(${juice.id.toString()})`);
+        this.juiceImg.classList.add("image");
         this.juiceCell.append(this.juiceImg);
 
         this.juiceTitle = document.createElement("p");
@@ -56,19 +49,19 @@ class JuiceGridCell {
     }
 
     updateJuicePriceCount(juiceId) {
-        var juice = juices[juiceId];
         if (this.juicePriceCount != undefined) {
             this.juicePriceCount.remove();
         }       
         this.juicePriceCount = document.createElement("p");
         this.juicePriceCount.classList.add("price");
-        this.juicePriceCount.textContent = `Цена: ${juice.price.toFixed(2)}, Ост: ${juice.rest.toString()}`;
+        this.juicePriceCount.textContent = `Цена: ${juices[juiceId].price.toFixed(2)}, Ост: ${juices[juiceId].rest.toString()}`;
         this.juiceCell.append(this.juicePriceCount);
     }
 
     blockingJuiceCell() {
         this.juiceCell.classList.remove("cell");
         this.juiceCell.classList.add("bcell");
+        this.juiceImg.classList.remove("image");
         this.juiceImg.classList.add("blocked");
         this.juiceBuyButton.classList.remove("buybutton");
         this.juiceBuyButton.classList.add("blockedbtn");
@@ -79,7 +72,7 @@ class JuiceGridCell {
 class JuiceGrid {
     constructor(GridElement){
         this.juiceGridCells = [];
-        for (let i = 0; i < JUICE_COUNT; i++) {
+        for (let i = 0; i < juices.length; i++) {
             this.juiceGridCells.push(new JuiceGridCell(i,GridElement));            
         }
     }
@@ -124,7 +117,8 @@ class Kassa {
         this.balance = 0.00;
         this.display = document.getElementById("psum");
         this.status = document.getElementById("paystatus");
-        this.selectedJuice = undefined;   
+        this.selectedJuice = undefined;
+        getAutomatData("juices", onDataRecieved);   
     }
 
     addCoins(coins) {
@@ -176,26 +170,24 @@ class Kassa {
     }
 }
 
+let juices = undefined;
+let juiceGrid = undefined;
 const kassa = new Kassa();
-
-const juices = [];
-juices.push(new Juice(0, "Кленовый сауэр", 25, 15, "img/drink1.png"));
-juices.push(new Juice(1, "Манхэттен", 15, 5, "img/drink2.png"));
-juices.push(new Juice(2, "Карибское сокровище", 10, 10, "img/drink3.png"));
-juices.push(new Juice(3, "Мохито", 30, 3, "img/drink4.png"));
-juices.push(new Juice(4, "Кровавая Мэри", 20, 7, "img/drink5.png"));
-juices.push(new Juice(5, "Японский урожай", 18, 9, "img/drink6.png"));
-juices.push(new Juice(6, "Сказка", 35, 1, "img/drink7.png"));
-juices.push(new Juice(7, "Пача Ибица", 40, 12, "img/drink8.png"));
 
 const coins = [];
 coins.push(new Coin(0,10,false));
 coins.push(new Coin(1,5,false));
 coins.push(new Coin(2,2,false));
 coins.push(new Coin(3,1,false));
-
-const juiceGrid = new JuiceGrid(document.getElementById("juices-grid"));
 const coinList = new CoinList(document.getElementById("coins"));
+
+function onDataRecieved(data) {
+
+    console.log(data);
+    juices = JSON.parse(JSON.stringify(data));
+
+    juiceGrid = new JuiceGrid(document.getElementById("juices-grid"));
+}
 
 function insertCoins(coinCount) {
     kassa.addCoins(coinCount);
@@ -204,21 +196,19 @@ function insertCoins(coinCount) {
 }
 
 function buyJuice(id) {
-    let juiceRestControl = 0;
     if (juices[id].price > kassa.balance)
     {
-        console.error("недостаточно средств");
         kassa.showStatus(INSUFFUCUENT);
         return;
     }
-    juiceRestControl = juices[id].dimRest();
-    if (juiceRestControl == NULLJUICES) {
+    if (juices[id].rest == 0) {
         kassa.showStatus(NULLJUICES);
         return;
     }
     kassa.dimCoins(juices[id].price);
     kassa.showBalance();
     kassa.showStatus(SUCCESSFULL);
+    juices[id].rest -= 1;
     
     juiceGrid.juiceGridCells[id].updateJuicePriceCount(id);
 
@@ -240,12 +230,6 @@ function getChange() {
 function getJuiceInfo(Id) {
     kassa.setSelectedJuice(juices[Id]);
     kassa.showStatus(GETJUICEINFO);
-    //getUserData("OLEG0392",onDataRecieved);
-}
-
-function onDataRecieved(data) {
-    imggit = document.createElement("img");
-    imggit.src = data.avatar_url;
-    document.getElementById("options").append(imggit);
+    getUserData("OLEG0392",onDataRecieved);
 }
 

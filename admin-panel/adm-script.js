@@ -30,8 +30,10 @@ class JuiceGridCell {
         this.juiceCell.classList.add("cell");
 
         this.juiceImg = document.createElement("img");
-        this.juiceImg.setAttribute("src",juice.imgUrl);
+        //this.juiceImg.setAttribute("src", juice.imgUrl.toString());
+        this.juiceImg.src = juice.imgUrl;
         this.juiceImg.setAttribute("onclick",`getJuiceInfo(${juice.id.toString()})`);
+        this.juiceImg.classList.add("image");
         this.juiceCell.append(this.juiceImg);
 
         this.juiceTitle = document.createElement("p");
@@ -45,12 +47,12 @@ class JuiceGridCell {
         this.juiceCell.append(this.juiceEdtButton);
         this.juiceCell.append(" ");
 
-        this.juiceDelButton = document.createElement("button");
+        /*this.juiceDelButton = document.createElement("button");
         this.juiceDelButton.classList.add("delbutton");
         this.juiceDelButton.setAttribute("onclick", `deleteJuice(${juice.id.toString()})`);
         this.juiceDelButton.textContent = "Удалить";
         this.juiceCell.append(this.juiceDelButton);
-        this.juiceCell.append(" ");
+        this.juiceCell.append(" ");*/
 
         this.juiceBlkButton = document.createElement("button");
         this.juiceBlkButton.classList.add("blkbutton");
@@ -90,6 +92,7 @@ class JuiceGridCell {
     blockingJuiceCell() {
         this.juiceCell.classList.remove("cell");
         this.juiceCell.classList.add("bcell");
+        this.juiceImg.classList.remove("image");
         this.juiceImg.classList.add("blocked");
     }
 
@@ -180,14 +183,14 @@ class CoinList {
 const kassa = new Kassa();
 
 const juices = [];
-juices.push(new Juice(0, "Кленовый сауэр", 25, 15, "../img/drink1.png"));
-juices.push(new Juice(1, "Манхэттен", 15, 5, "../img/drink2.png"));
-juices.push(new Juice(2, "Карибское сокровище", 10, 10, "../img/drink3.png"));
-juices.push(new Juice(3, "Мохито", 30, 3, "../img/drink4.png"));
-juices.push(new Juice(4, "Кровавая Мэри", 20, 7, "../img/drink5.png"));
-juices.push(new Juice(5, "Японский урожай", 18, 9, "../img/drink6.png"));
-juices.push(new Juice(6, "Сказка", 35, 1, "../img/drink7.png"));
-juices.push(new Juice(7, "Пача Ибица", 40, 12, "../img/drink8.png"));
+juices.push(new Juice(0, "Кленовый сауэр", 25, 15, "drink1.png"));
+juices.push(new Juice(1, "Манхэттен", 15, 5, "drink2.png"));
+juices.push(new Juice(2, "Карибское сокровище", 10, 10, "drink3.png"));
+juices.push(new Juice(3, "Мохито", 30, 3, "drink4.png"));
+juices.push(new Juice(4, "Кровавая Мэри", 20, 7, "drink5.png"));
+juices.push(new Juice(5, "Японский урожай", 18, 9, "drink6.png"));
+juices.push(new Juice(6, "Сказка", 35, 1, "drink7.png"));
+juices.push(new Juice(7, "Пача Ибица", 40, 12, "drink8.png"));
 
 const coins = [];
 coins.push(new Coin(0,10,false));

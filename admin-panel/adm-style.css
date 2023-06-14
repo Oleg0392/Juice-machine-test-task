@@ -3,7 +3,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
+	height: 70vh;
     margin-top: 10vh;
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -23,7 +23,7 @@ body {
     background-color: #444;
 	border-radius: 1vmin;
 	text-align: center;
-	font-size: 14px;
+	font-size: 12px;
 	color: lightsteelblue;
 }
 
@@ -40,6 +40,7 @@ body {
 }
 
 .blocked {
+	width: 15vmin;
 	opacity: 0.5;
 }
 
@@ -47,7 +48,7 @@ body {
     background-color: #3f3535;
 	border-radius: 1vmin;
 	text-align: center;
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .edtbutton {
@@ -168,4 +169,8 @@ body {
 	height: 100%;
 	background-color: gray;
 	opacity: 0.3;
+  }
+
+  .image {
+	width: 15vmin;
   }
