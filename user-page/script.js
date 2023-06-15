@@ -1,3 +1,5 @@
+//const { redirect } = require("express/lib/response");
+
 const INSUFFUCUENT = 9;
 const NULLBALANCE = 7;
 const SUCCESSFULL = 5;
@@ -89,8 +91,13 @@ class Coin {
 class CoinListItem {
     constructor(coinId, divElement) {
         this.CoinButton = document.createElement("div");
-        this.CoinButton.className = "coin";
-        this.CoinButton.setAttribute("onclick",`insertCoins(${coins[coinId].nominal})`);
+        if (coins[coinId].blocked) {
+            this.CoinButton.className = "bcoin";
+        }
+        else {
+            this.CoinButton.className = "coin";
+            this.CoinButton.setAttribute("onclick",`insertCoins(${coins[coinId].nominal})`);
+        }      
         this.CoinButton.textContent = coins[coinId].nominal.toString();
         divElement.append(this.CoinButton);
     }
@@ -103,13 +110,6 @@ class CoinList {
             this.coinList.push(new CoinListItem(i, divElement));
         }
     }
-
-    checkBlocking(coinId){
-        if (coins[coinId].blocked) {
-            this.coinList[coinId].CoinButton.className = "bcoin";
-        }
-        else this.coinList[coinId].CoinButton.className = "coin";
-    }
 }
 
 class Kassa {
@@ -118,7 +118,8 @@ class Kassa {
         this.display = document.getElementById("psum");
         this.status = document.getElementById("paystatus");
         this.selectedJuice = undefined;
-        getAutomatData("juices", onDataRecieved);   
+        getAutomatData("juices", onJuiceDataRecieved);
+        getAutomatData("coins", onCoinDataRecieved);   
     }
 
     addCoins(coins) {
@@ -171,17 +172,13 @@ class Kassa {
 }
 
 let juices = undefined;
+let coins = undefined;
 let juiceGrid = undefined;
+let coinList = undefined;
+
 const kassa = new Kassa();
 
-const coins = [];
-coins.push(new Coin(0,10,false));
-coins.push(new Coin(1,5,false));
-coins.push(new Coin(2,2,false));
-coins.push(new Coin(3,1,false));
-const coinList = new CoinList(document.getElementById("coins"));
-
-function onDataRecieved(data) {
+function onJuiceDataRecieved(data) {
 
     console.log(data);
     juices = JSON.parse(JSON.stringify(data));
@@ -189,10 +186,17 @@ function onDataRecieved(data) {
     juiceGrid = new JuiceGrid(document.getElementById("juices-grid"));
 }
 
+function onCoinDataRecieved(data) {
+
+    console.log(data);
+    coins = JSON.parse(JSON.stringify(data));
+
+    coinList = new CoinList(document.getElementById("coins"));
+}
+
 function insertCoins(coinCount) {
     kassa.addCoins(coinCount);
     kassa.showBalance();
-    //kassa.showStatus(DELSTATUSMSG);
 }
 
 function buyJuice(id) {
@@ -230,6 +234,12 @@ function getChange() {
 function getJuiceInfo(Id) {
     kassa.setSelectedJuice(juices[Id]);
     kassa.showStatus(GETJUICEINFO);
-    getUserData("OLEG0392",onDataRecieved);
+}
+
+function goAdminPanel() {
+    var adminKey = prompt("Введите ключ доступа:","");
+    if (adminKey == null) return;
+    if (adminKey == '123') window.location.href = window.location.href + "adm";
+    else alert("Неверный ключ.");
 }
 

@@ -116,6 +116,16 @@ body {
 	background-color: rgb(243, 237, 154);
   }
 
+  .bcoin {
+	background-color:rgb(75, 72, 41);
+	border: 2px solid rgb(116, 114, 114);
+	border-radius: 5vmin;
+	color:#1b1002;
+	width: 20vmin;
+	height: 3vmin;
+	font-size: 28px;
+  }
+
   #paystatus {
 	color: forestgreen;
 	font-size: 14px;
@@ -125,4 +135,26 @@ body {
 
   .image {
 	width: 15vmin;
+  }
+
+  .navbutton {
+	background-color: #7f8fd6; /* Green */
+	border: none;
+	color: #0a1744;
+	padding: 5px 28px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
+  }
+
+  .navbutton:hover {
+	background-color: #a1acdb;
+	border: none;
+	color: #0a1744;
+	padding: 5px 28px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
   }

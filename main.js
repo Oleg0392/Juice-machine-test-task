@@ -8,7 +8,7 @@ function runServerCallback() {
 }
 
 function onGetMainPage(request, response) {
-    response.sendFile(__dirname + '/user-page/script.js');
+    response.sendFile(__dirname + '/user-page/index.html');
 }
 
 function onGetAdminPage(request, response) {
@@ -18,7 +18,7 @@ function onGetAdminPage(request, response) {
 
 app.use(express.static('user-page'));
 app.use(express.static('admin-panel'));
-app.use(express.static(__dirname + '/img'));
+app.use(express.static('img'));
 
 app.get('/', onGetMainPage);
 app.get('/adm', onGetAdminPage);
