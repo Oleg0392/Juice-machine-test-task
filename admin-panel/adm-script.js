@@ -243,10 +243,9 @@ function goHomePage() {
 }
 
 function saveChanges() {
-    var sendData = JSON.stringify(juices[0]);
-    //sendData = sendData.replace('[','{').replace(']','}');
+    var sendData = JSON.stringify(juices);
     console.log(sendData);
-    fetchAutomatData(juices[0], "juices", onJuiceDataSended);
+    fetchAutomatData(sendData, "juices", onJuiceDataSended);
 }
 
 function onJuiceDataSended() {
