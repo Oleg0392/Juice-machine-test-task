@@ -5,8 +5,8 @@ const GRID_SIZE = 4;
 const JUICE_COUNT = 8;
 
 class Juice {
-    constructor(id, title, price, rest, imgurl){
-        this.Id = id;
+    constructor(juiceid, title, price, rest, imgurl){
+        this.juiceid = juiceid;
         this.Title = title;
         this.Price = price;
         this.Rest = rest;
@@ -32,7 +32,7 @@ class JuiceGridCell {
         this.juiceImg = document.createElement("img");
         //this.juiceImg.setAttribute("src", juice.imgUrl.toString());
         this.juiceImg.src = juice.imgUrl.toString();
-        this.juiceImg.setAttribute("onclick",`getJuiceInfo(${juice.id.toString()})`);
+        this.juiceImg.setAttribute("onclick",`getJuiceInfo(${juice.juiceid.toString()})`);
         this.juiceImg.classList.add("image");
         this.juiceCell.append(this.juiceImg);
 
@@ -42,21 +42,21 @@ class JuiceGridCell {
 
         this.juiceEdtButton = document.createElement("button");
         this.juiceEdtButton.classList.add("edtbutton");
-        this.juiceEdtButton.setAttribute("onclick", `editJuice(13,${juice.id.toString()})`);
+        this.juiceEdtButton.setAttribute("onclick", `editJuice(13,${juice.juiceid.toString()})`);
         this.juiceEdtButton.textContent = "Изменить";
         this.juiceCell.append(this.juiceEdtButton);
         this.juiceCell.append(" ");
 
         /*this.juiceDelButton = document.createElement("button");
         this.juiceDelButton.classList.add("delbutton");
-        this.juiceDelButton.setAttribute("onclick", `deleteJuice(${juice.id.toString()})`);
+        this.juiceDelButton.setAttribute("onclick", `deleteJuice(${juice.juiceid.toString()})`);
         this.juiceDelButton.textContent = "Удалить";
         this.juiceCell.append(this.juiceDelButton);
         this.juiceCell.append(" ");*/
 
         this.juiceBlkButton = document.createElement("button");
         this.juiceBlkButton.classList.add("blkbutton");
-        this.juiceBlkButton.setAttribute("onclick", `blockJuice(${juice.id.toString()})`);
+        this.juiceBlkButton.setAttribute("onclick", `blockJuice(${juice.juiceid.toString()})`);
         this.juiceBlkButton.textContent = "Блокировка";
         this.juiceCell.append(this.juiceBlkButton);
 
@@ -75,12 +75,12 @@ class JuiceGridCell {
 
         this.juicePriceEditButton = document.createElement("button");
         this.juicePriceEditButton.className = "edtbutton";
-        this.juicePriceEditButton.setAttribute("onclick",`editJuice(11,${juice.id.toString()})`);
+        this.juicePriceEditButton.setAttribute("onclick",`editJuice(11,${juice.juiceid.toString()})`);
         this.juicePriceEditButton.textContent = `Цена: ${juice.price.toFixed(2)}`;
 
         this.juiceRestEditButton = document.createElement("button");
         this.juiceRestEditButton.className = "edtbutton";
-        this.juiceRestEditButton.setAttribute("onclick",`editJuice(12,${juice.id.toString()})`);
+        this.juiceRestEditButton.setAttribute("onclick",`editJuice(12,${juice.juiceid.toString()})`);
         this.juiceRestEditButton.textContent = `Ост: ${juice.rest.toString()}`;
 
         this.juicePriceCount.append(this.juicePriceEditButton);
@@ -149,7 +149,7 @@ class Kassa {
 
 class Coin {
     constructor(id, nominal, blocked) {
-        this.id = id;
+        this.coinid = id;
         this.nominal = nominal;
         this.blocked = blocked;
     }

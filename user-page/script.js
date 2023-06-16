@@ -12,8 +12,8 @@ const GRID_SIZE = 4;
 const JUICE_COUNT = 8;
 
 class Juice {
-    constructor(id, title, price, rest, imgurl){
-        this.id = id;
+    constructor(juiceid, title, price, rest, imgurl){
+        this.juiceId = juiceid;
         this.title = title;
         this.price = price;
         this.rest = rest;
@@ -30,7 +30,7 @@ class JuiceGridCell {
 
         this.juiceImg = document.createElement("img");
         this.juiceImg.setAttribute("src",juice.imgUrl.toString());
-        this.juiceImg.setAttribute("onclick",`getJuiceInfo(${juice.id.toString()})`);
+        this.juiceImg.setAttribute("onclick",`getJuiceInfo(${juice.juiceId.toString()})`);
         this.juiceImg.classList.add("image");
         this.juiceCell.append(this.juiceImg);
 
@@ -40,7 +40,7 @@ class JuiceGridCell {
 
         this.juiceBuyButton = document.createElement("button");
         this.juiceBuyButton.classList.add("buybutton");
-        this.juiceBuyButton.setAttribute("onclick", `buyJuice(${juice.id.toString()})`);
+        this.juiceBuyButton.setAttribute("onclick", `buyJuice(${juice.juiceId.toString()})`);
         this.juiceBuyButton.textContent = "Купить";
         this.juiceCell.append(this.juiceBuyButton);
 
@@ -72,8 +72,11 @@ class JuiceGridCell {
 }
 
 class JuiceGrid {
-    constructor(GridElement){
-        this.juiceGridCells = [];
+    constructor(){
+        this.juiceGridCells = [];      
+    }
+
+    initJuiceGrid(GridElement) {
         for (let i = 0; i < juices.length; i++) {
             this.juiceGridCells.push(new JuiceGridCell(i,GridElement));            
         }
@@ -82,7 +85,7 @@ class JuiceGrid {
 
 class Coin {
     constructor(id, nominal, blocked) {
-        this.id = id;
+        this.coinId = id;
         this.nominal = nominal;
         this.blocked = blocked;
     }
@@ -104,8 +107,11 @@ class CoinListItem {
 }
 
 class CoinList {
-    constructor(divElement){
+    constructor(){
         this.coinList = [];
+    }
+
+    initCoinList(divElement){
         for (let i = 0; i < coins.length; i++) {
             this.coinList.push(new CoinListItem(i, divElement));
         }
@@ -173,8 +179,8 @@ class Kassa {
 
 let juices = undefined;
 let coins = undefined;
-let juiceGrid = undefined;
-let coinList = undefined;
+const juiceGrid = new JuiceGrid();
+const coinList = new CoinList();
 
 const kassa = new Kassa();
 
@@ -183,7 +189,7 @@ function onJuiceDataRecieved(data) {
     console.log(data);
     juices = JSON.parse(JSON.stringify(data));
 
-    juiceGrid = new JuiceGrid(document.getElementById("juices-grid"));
+    juiceGrid.initJuiceGrid(document.getElementById("juices-grid"));
 }
 
 function onCoinDataRecieved(data) {
@@ -191,7 +197,7 @@ function onCoinDataRecieved(data) {
     console.log(data);
     coins = JSON.parse(JSON.stringify(data));
 
-    coinList = new CoinList(document.getElementById("coins"));
+    coinList.initCoinList(document.getElementById("coins"));
 }
 
 function insertCoins(coinCount) {
