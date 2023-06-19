@@ -19,6 +19,10 @@ class Juice {
         this.rest = rest;
         this.imgUrl = imgurl;
     }
+
+    decRest(){
+        if (this.rest > 0) this.rest -= 1;
+    }
 }
 
 class JuiceGridCell {
@@ -26,7 +30,13 @@ class JuiceGridCell {
         var juice = juices[juiceId];
 
         this.juiceCell = document.createElement("div");
-        this.juiceCell.classList.add("cell");
+        if (juice.rest == 0) {
+            this.juiceCell.classList.add("bcell");
+        }
+        else {
+            this.juiceCell.classList.add("cell");
+        }
+        
 
         this.juiceImg = document.createElement("img");
         this.juiceImg.setAttribute("src",juice.imgUrl.toString());
@@ -177,8 +187,8 @@ class Kassa {
     }
 }
 
-let juices = undefined;
-let coins = undefined;
+const juices = [];
+const coins = [];
 const juiceGrid = new JuiceGrid();
 const coinList = new CoinList();
 
@@ -187,7 +197,10 @@ const kassa = new Kassa();
 function onJuiceDataRecieved(data) {
 
     console.log(data);
-    juices = JSON.parse(JSON.stringify(data));
+    var recieved = JSON.parse(JSON.stringify(data));
+    recieved.forEach(element => {
+        juices.push(element);
+    });
 
     juiceGrid.initJuiceGrid(document.getElementById("juices-grid"));
 }
@@ -195,7 +208,10 @@ function onJuiceDataRecieved(data) {
 function onCoinDataRecieved(data) {
 
     console.log(data);
-    coins = JSON.parse(JSON.stringify(data));
+    var recieved = JSON.parse(JSON.stringify(data));
+    recieved.forEach(element => {
+        coins.push(element);
+    });
 
     coinList.initCoinList(document.getElementById("coins"));
 }
@@ -225,6 +241,7 @@ function buyJuice(id) {
     if (juices[id].rest == 0) {
         juiceGrid.juiceGridCells[id].blockingJuiceCell();
     }
+    sendNewRest();
 }
 
 function getChange() {
@@ -247,5 +264,15 @@ function goAdminPanel() {
     if (adminKey == null) return;
     if (adminKey == '123') window.location.href = window.location.href + "adm";
     else alert("Неверный ключ.");
+}
+
+function sendNewRest() {    
+    var sendData = JSON.stringify(juices);
+    console.log(sendData);
+    fetchAutomatData(sendData, "juices", onJuiceDataSended);    
+}
+
+function onJuiceDataSended() {
+    console.log("juices updated");
 }
 

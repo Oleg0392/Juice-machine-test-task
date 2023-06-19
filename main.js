@@ -19,6 +19,7 @@ function onGetAdminPage(request, response) {
 app.use(express.static('user-page'));
 app.use(express.static('admin-panel'));
 app.use(express.static('img'));
+app.use(express.static('service'));
 
 app.get('/', onGetMainPage);
 app.get('/adm', onGetAdminPage);
