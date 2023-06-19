@@ -12,7 +12,7 @@ function onGetMainPage(request, response) {
 }
 
 function onGetAdminPage(request, response) {
-    response.sendFile(__dirname + '/admin-panel/adm-index.html');
+    if (request.query.key == '123q') response.sendFile(__dirname + '/admin-panel/adm-index.html');
 }
 
 

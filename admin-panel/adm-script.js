@@ -257,7 +257,7 @@ function blockJuice(juiceId) {
 }
 
 function goHomePage() {
-    window.location.href = window.location.href.replace("adm","");
+    window.location.href = 'http://' + window.location.host + "/";
 }
 
 function saveChanges() {

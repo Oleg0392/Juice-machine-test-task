@@ -262,8 +262,7 @@ function getJuiceInfo(Id) {
 function goAdminPanel() {
     var adminKey = prompt("Введите ключ доступа:","");
     if (adminKey == null) return;
-    if (adminKey == '123') window.location.href = window.location.href + "adm";
-    else alert("Неверный ключ.");
+    window.location.href = window.location.href + "adm?key=" + adminKey;
 }
 
 function sendNewRest() {    
