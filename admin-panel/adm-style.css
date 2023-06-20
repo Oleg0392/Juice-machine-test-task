@@ -11,10 +11,11 @@ body {
 #juices-grid {
     --cell-size: 30vmin;
 	--cell-gap: 2vmin;
+	--row-count: 2;
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(4, var(--cell-size));
-	grid-template-rows: repeat(2, var(--cell-size));
+	grid-template-rows: repeat(var(--row-count), var(--cell-size));
 	gap: var(--cell-gap);
 	border-radius: 1vmin;
 }

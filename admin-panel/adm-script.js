@@ -123,6 +123,8 @@ class JuiceGrid {
     }
 
     initJuiceGrid(GridElement) {
+        let rowCount = Math.floor(juices.length / 4);
+        GridElement.style.setProperty('--row-count', rowCount);
         for (let i = 0; i < juices.length; i++) {
             this.juiceGridCells.push(new JuiceGridCell(i,GridElement));            
         }
